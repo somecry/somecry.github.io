@@ -294,7 +294,105 @@
     <title>2026年1月23日日记</title>
     <url>/2026/01/23/2026%E5%B9%B41%E6%9C%8823%E6%97%A5%E6%97%A5%E8%AE%B0/</url>
     <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="26e3700d656c75e08b0e68c098f405cadff0ed2f3c905b4508c8d16bed341311">64313910196a993179bfe9f015311e720dba995a47252b7bbf0591163c41126b6c5d21c475eadf489bd8dc83e2fc3a2d052942530af904e9e158461534067bd54cb4172d10fa7c166ab1b9121c55469c5b5b59a2a546a30cd850a32e8f2ccd76ced25a652e5c2c41f8b63ae79cd20fd871077c0fbebff700bc131222939125521b30c98eaddbc0a1644f1641ee697976d80afedb0c49a2267aed23eabd3da7d0c86c28d7c37da41e77057d17208fd4190f8971fa64c772ead36f1d6d97ef13710c08138d748b656689c6c376c551dbafc36765b4f242d88bf96ff3ba950c1b26e0dcdfda44e23a76d99ad73beaceb503f832c139c531a40c049bd20f009407da1f38b10fda9568ad7cd6e4a62089a26985dfa1398ae2c55eb5222219564f9434dc6d325750103f9718f7ffdcaed6385737ea5fab2607092bbd14e234a6a74cd52ee9441f579f9b257c99ea10a3dd6e1b05cd63c8dfa972d89d6fdfc58c97040c6a5b346e0dc18498a3dbb617ebe3d7a2</script>
+  <script id="hbeData" type="hbeData" data-hmacdigest="520a6768577c229671c97e95e99bdd389e01b3ea731d5af39a4e79fccf940cd2">64313910196a993179bfe9f015311e720dba995a47252b7bbf0591163c41126b6c5d21c475eadf489bd8dc83e2fc3a2d052942530af904e9e158461534067bd5e9ed945c8130884181b565740db819fab13bddd62e4710828bf31c19f2874418dde700c7c609a7568215ea7b958c9aaabc7627b7acf44290297d65af8454ff377f972c8b6191560cb7056fad8cbc58a2bfce549aad17c5397eb3983e839d46559f035beeae73aa2cbd6bd73e6a01f002f823e5a21916cd1e1c6747d439992e367acb98c33c3565114474ab35aa72c93a7fd8da79d43fca7fe7feb047a012ee7039f049c87add4382a5d5315a92b5543985e72e21a0637e9b98092a5810c03672aa4e383de25fd3c7ed981d59af7c0adcf9b929be6255d38997d8ed39fda2cf2756267ada9ec0d25098c5d571b4c75016cceae0b5a56b0e3efb0454785458952b38f97938b10ad209543ae545794305536bf343ff29524c873403c4fba0cbc734e2ec224cdd8ca844004a9e03f9ebfa103f40e41781d551eb888202a1f3d3280a4e3c2f84e55160a7bb78b710be01341cc800adb037d30c32f8990a20c203a08aecea7236879ab51484ed3da8fe70595c</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">请输入密码访问😡😡</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <tags>
+        <tag>加密</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2026年1月25日日记暨部分题目</title>
+    <url>/2026/01/25/2026%E5%B9%B41%E6%9C%8825%E6%97%A5%E6%97%A5%E8%AE%B0%E6%9A%A8%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<p><a href="%5B%E5%8D%8E%E9%82%A6%E5%88%B6%E8%8D%AF-%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%5D(https://afbb.huapont.cn/product/10.html)">华邦®力言卓®地奈德乳膏</a></p>
+<p><a href="%5B%E7%88%B1%E8%82%A4%E9%82%A6%E9%82%A6%5D(https://afbb.huapont.cn/product/instruction/id/2.html)"><strong>卡泊三醇软膏说明书</strong></a></p>
+<p>这道CTF题目考察的是**有偏随机数（Biased Randomness）**引发的统计学攻击（或相关性攻击）。</p>
+<h3 id="核心漏洞分析"><a href="#核心漏洞分析" class="headerlink" title="核心漏洞分析"></a>核心漏洞分析</h3><ol>
+<li><p><strong>随机数生成器 (<code>gen</code> 函数) 存在偏差</strong>：<br>代码中的随机位生成逻辑是 <code>randint(1, 7) % 2</code>。</p>
+<ul>
+<li><code>randint(1, 7)</code> 生成 1 到 7 之间的整数（包含 1 和 7）。</li>
+<li>集合为 <code>{1, 2, 3, 4, 5, 6, 7}</code>。</li>
+<li>对 2 取模的结果：<ul>
+<li>奇数 (1, 3, 5, 7) -&gt; 结果为 <code>1</code> (共4个)</li>
+<li>偶数 (2, 4, 6) -&gt; 结果为 <code>0</code> (共3个)</li>
+</ul>
+</li>
+<li><strong>偏差</strong>：生成 <code>1</code> 的概率是 $4&#x2F;7 \approx 57.1%$，生成 <code>0</code> 的概率是 $3&#x2F;7 \approx 42.9%$。这不是均匀分布的随机数。</li>
+</ul>
+</li>
+<li><p><strong>异或运算的统计特性</strong>：<br><code>otp()</code> 函数返回 <code>key ^ random_mask</code>。</p>
+<ul>
+<li>假设 Key 的某一位是 $k$，Mask 的对应位是 $r$。</li>
+<li>如果 $k &#x3D; 0$，则输出 $0 \oplus r &#x3D; r$。输出结果倾向于 Mask 的分布（1 多 0 少）。</li>
+<li>如果 $k &#x3D; 1$，则输出 $1 \oplus r &#x3D; \neg r$。输出结果会反转 Mask 的分布（0 多 1 少）。</li>
+</ul>
+</li>
+<li><p><strong>攻击方法</strong>：<br>根据<strong>大数定律</strong>，我们可以多次请求 <code>otp()</code>，收集大量的样本。对于每一位（bit）：</p>
+<ul>
+<li>统计该位为 <code>1</code> 的频率。</li>
+<li>如果频率显著大于 0.5（接近 4&#x2F;7），则 Key 的该位为 <code>0</code>。</li>
+<li>如果频率显著小于 0.5（接近 3&#x2F;7），则 Key 的该位为 <code>1</code>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="完整的解题脚本-Solution-Script"><a href="#完整的解题脚本-Solution-Script" class="headerlink" title="完整的解题脚本 (Solution Script)"></a>完整的解题脚本 (Solution Script)</h3><p>你需要安装 <code>pwntools</code> 库 (<code>pip install pwntools</code>) 来运行此脚本。为了在本地测试，请确保当前目录下有题目给出的 <code>Subgroup-Weaver.py</code> 以及一个包含 <code>flag = &quot;CTF{test_flag}&quot;</code> 的 <code>secret.py</code> 文件。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置日志级别，减少杂乱输出</span></span><br><span class="line">context.log_level = <span class="string">&#x27;info&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve</span>():</span><br><span class="line">    <span class="comment"># 启动题目进程</span></span><br><span class="line">    <span class="comment"># 如果是远程题目，使用 remote(&#x27;ip&#x27;, port)</span></span><br><span class="line">    <span class="comment"># 这里演示本地运行题目文件</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        io = process([<span class="string">&#x27;python3&#x27;</span>, <span class="string">&#x27;Subgroup-Weaver.py&#x27;</span>])</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[-] 无法启动题目进程，请确保目录中有 Subgroup-Weaver.py 和 secret.py&quot;</span>)</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] 开始收集样本以进行统计分析...&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 样本数量。由于偏差较大(0.57 vs 0.43)，300-500个样本足以准确判断</span></span><br><span class="line">    SAMPLE_SIZE = <span class="number">500</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 用于存储每一位（bit）为 1 的出现次数</span></span><br><span class="line">    <span class="comment"># Key 是 64 字节 = 512 位</span></span><br><span class="line">    bit_counts = [<span class="number">0</span>] * <span class="number">512</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(SAMPLE_SIZE):</span><br><span class="line">        <span class="comment"># 接收提示符 &quot;&gt; &quot; 并发送任意非 Key 的输入以触发一次 otp()</span></span><br><span class="line">        io.sendlineafter(<span class="string">b&#x27;&gt; &#x27;</span>, <span class="string">b&#x27;get_sample&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 接收生成的随机数</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            line = io.recvline().strip()</span><br><span class="line">            val = <span class="built_in">int</span>(line)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] 数据解析错误&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 统计每一位的分布</span></span><br><span class="line">        <span class="keyword">for</span> bit_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">512</span>):</span><br><span class="line">            <span class="comment"># 检查 val 的第 bit_idx 位是否为 1</span></span><br><span class="line">            <span class="keyword">if</span> (val &gt;&gt; bit_idx) &amp; <span class="number">1</span>:</span><br><span class="line">                bit_counts[bit_idx] += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 简单的进度条</span></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[*] 进度: <span class="subst">&#123;i&#125;</span>/<span class="subst">&#123;SAMPLE_SIZE&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] 样本收集完毕，开始重构密钥...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    recovered_key_int = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 根据统计结果重构 Key</span></span><br><span class="line">    <span class="keyword">for</span> bit_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">512</span>):</span><br><span class="line">        freq = bit_counts[bit_idx] / SAMPLE_SIZE</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 逻辑分析：</span></span><br><span class="line">        <span class="comment"># Mask 中 1 的概率是 4/7 (~0.57)</span></span><br><span class="line">        <span class="comment"># 如果 Key_bit = 0: Output = Mask =&gt; Output为1的概率 &gt; 0.5</span></span><br><span class="line">        <span class="comment"># 如果 Key_bit = 1: Output = ~Mask =&gt; Output为1的概率 &lt; 0.5</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> freq &lt; <span class="number">0.5</span>:</span><br><span class="line">            <span class="comment"># 频率低，说明 mask 被反转了，所以 key 的这一位是 1</span></span><br><span class="line">            recovered_key_int |= (<span class="number">1</span> &lt;&lt; bit_idx)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 频率高，说明 mask 没变，所以 key 的这一位是 0</span></span><br><span class="line">            <span class="keyword">pass</span> <span class="comment"># 默认为0，无需操作</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将整数转换为字节串</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        recovered_key_bytes = long_to_bytes(recovered_key_int)</span><br><span class="line">        <span class="comment"># 确保补齐 64 字节（如果高位全是0可能会变短，但在随机key中很少见）</span></span><br><span class="line">        recovered_key_bytes = recovered_key_bytes.rjust(<span class="number">64</span>, <span class="string">b&#x27;\0&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        recovered_key_hex = recovered_key_bytes.<span class="built_in">hex</span>()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[+] 恢复的密钥 (Hex): <span class="subst">&#123;recovered_key_hex&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 发送密钥</span></span><br><span class="line">        io.sendlineafter(<span class="string">b&#x27;&gt; &#x27;</span>, recovered_key_hex.encode())</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 获取 Flag</span></span><br><span class="line">        response = io.recvall().decode(errors=<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;your prize&quot;</span> <span class="keyword">in</span> response:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">40</span>)</span><br><span class="line">            <span class="built_in">print</span>(response.strip())</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span>*<span class="number">40</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] 密钥错误，可能样本量不足，请增加 SAMPLE_SIZE 重试。&quot;</span>)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] 发生错误: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        io.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 在本地生成一个伪造的 secret.py 以便代码可以直接运行验证</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;secret.py&quot;</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;secret.py&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(<span class="string">&#x27;flag = &quot;CTF&#123;biased_randomness_is_dangerous&#125;&quot;&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[!] 本地测试：已生成临时的 secret.py&quot;</span>)</span><br><span class="line">        </span><br><span class="line">    solve()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="代码详细解释"><a href="#代码详细解释" class="headerlink" title="代码详细解释"></a>代码详细解释</h3><ol>
+<li><p><strong>样本收集 (<code>for i in range(SAMPLE_SIZE)</code>)</strong>:</p>
+<ul>
+<li>脚本模拟与服务器的交互。程序处于 <code>while</code> 循环中，只要输入的不是 Key，就会打印 <code>otp()</code> 的结果。</li>
+<li>我们发送垃圾数据（例如 <code>b&#39;get_sample&#39;</code>），服务器就会返回一个大整数。</li>
+<li>我们收集 500 个这样的大整数。</li>
+</ul>
+</li>
+<li><p><strong>位统计 (<code>bit_counts</code>)</strong>:</p>
+<ul>
+<li>Key 的长度是 64 字节，即 $64 \times 8 &#x3D; 512$ 比特。</li>
+<li>我们创建了一个长度为 512 的数组 <code>bit_counts</code>。</li>
+<li>对于每一个返回的整数，检查它的第 0 位到第 511 位。如果某一位是 <code>1</code>，就在数组对应位置加 1。</li>
+</ul>
+</li>
+<li><p><strong>密钥重构 (核心逻辑)</strong>:</p>
+<ul>
+<li><strong>理论基础</strong>：<ul>
+<li>Mask 的生成逻辑是 <code>randint(1,7)%2</code>。</li>
+<li>$P(\text{Mask}&#x3D;1) &#x3D; 4&#x2F;7 \approx 0.571$</li>
+<li>$P(\text{Mask}&#x3D;0) &#x3D; 3&#x2F;7 \approx 0.428$</li>
+</ul>
+</li>
+<li><strong>判断逻辑</strong>：<ul>
+<li>计算每一位出现 <code>1</code> 的频率 <code>freq = count / total</code>。</li>
+<li>如果 <code>freq &gt; 0.5</code>（接近 0.57）：这意味着 <code>Output</code> 的分布和 <code>Mask</code> 相同（1多0少）。根据异或性质 $0 \oplus x &#x3D; x$，说明 Key 的这一位是 <strong>0</strong>。</li>
+<li>如果 <code>freq &lt; 0.5</code>（接近 0.43）：这意味着 <code>Output</code> 的分布和 <code>Mask</code> 相反（1少0多，即0变成了1，1变成了0）。根据异或性质 $1 \oplus x &#x3D; \neg x$，说明 Key 的这一位是 <strong>1</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>提交与获取 Flag</strong>:</p>
+<ul>
+<li>利用位运算 <code>|= (1 &lt;&lt; bit_idx)</code> 将判断出的位组装回整数。</li>
+<li>转成十六进制字符串发送给服务器，即可通过验证并获取 Flag。</li>
+</ul>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>2026年1月24日日记</title>
+    <url>/2026/01/24/2026%E5%B9%B41%E6%9C%8824%E6%97%A5%E6%97%A5%E8%AE%B0/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="5d247938c626a802a6d56f831091246bd46e3127a7be7e927f53e3991fc22050">64313910196a993179bfe9f015311e720dba995a47252b7bbf0591163c41126b6c5d21c475eadf489bd8dc83e2fc3a2d052942530af904e9e158461534067bd5a5cf904af76c53262a8dd3f755eaeed56ca1b1985ceb992cfd06bd818dec1f7c47be69f9adfeee2a4bddd14bca75f8ce8f4aafd4ae443e193e64780b6a45b54a32fa8112f7394796bfe0f82516a29d8dad5224541219a2ca53fe554ef0c50115ffb6835e05cbd0a9d9a7ba0e8c9ce429</script>
   <div class="hbe hbe-content">
     <div class="hbe hbe-input hbe-input-default">
       <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
