@@ -312,8 +312,9 @@
   <entry>
     <title>2026年1月25日日记暨部分题目</title>
     <url>/2026/01/25/2026%E5%B9%B41%E6%9C%8825%E6%97%A5%E6%97%A5%E8%AE%B0%E6%9A%A8%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AE/</url>
-    <content><![CDATA[<p><a href="%5B%E5%8D%8E%E9%82%A6%E5%88%B6%E8%8D%AF-%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%5D(https://afbb.huapont.cn/product/10.html)">华邦®力言卓®地奈德乳膏</a></p>
-<p><a href="%5B%E7%88%B1%E8%82%A4%E9%82%A6%E9%82%A6%5D(https://afbb.huapont.cn/product/instruction/id/2.html)"><strong>卡泊三醇软膏说明书</strong></a></p>
+    <content><![CDATA[<p>爱你老己，明天见。<br>–“老己”就是用第三人称来称呼自己，平日里不舍得对自己好或是容易有负罪感，套上“老己”的壳子就能扫平一切障碍</p>
+<p><a href="https://afbb.huapont.cn/product/10.html">华邦®力言卓®地奈德乳膏</a></p>
+<p><a href="https://afbb.huapont.cn/product/instruction/id/2.html"><strong>卡泊三醇软膏说明书</strong></a></p>
 <p>这道CTF题目考察的是**有偏随机数（Biased Randomness）**引发的统计学攻击（或相关性攻击）。</p>
 <h3 id="核心漏洞分析"><a href="#核心漏洞分析" class="headerlink" title="核心漏洞分析"></a>核心漏洞分析</h3><ol>
 <li><p><strong>随机数生成器 (<code>gen</code> 函数) 存在偏差</strong>：<br>代码中的随机位生成逻辑是 <code>randint(1, 7) % 2</code>。</p>
