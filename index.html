@@ -212,7 +212,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-01-25 12:51:04 / 修改时间：17:05:21" itemprop="dateCreated datePublished" datetime="2026-01-25T12:51:04+08:00">2026-01-25</time>
+      <time title="创建时间：2026-01-25 12:51:04 / 修改时间：17:13:40" itemprop="dateCreated datePublished" datetime="2026-01-25T12:51:04+08:00">2026-01-25</time>
     </span>
 
   
@@ -226,81 +226,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>爱你老己，明天见。<br>–“老己”就是用第三人称来称呼自己，平日里不舍得对自己好或是容易有负罪感，套上“老己”的壳子就能扫平一切障碍</p>
-<p><a target="_blank" rel="noopener" href="https://afbb.huapont.cn/product/10.html">华邦®力言卓®地奈德乳膏</a></p>
-<p><a target="_blank" rel="noopener" href="https://afbb.huapont.cn/product/instruction/id/2.html"><strong>卡泊三醇软膏说明书</strong></a></p>
-<p>这道CTF题目考察的是**有偏随机数（Biased Randomness）**引发的统计学攻击（或相关性攻击）。</p>
-<h3 id="核心漏洞分析"><a href="#核心漏洞分析" class="headerlink" title="核心漏洞分析"></a>核心漏洞分析</h3><ol>
-<li><p><strong>随机数生成器 (<code>gen</code> 函数) 存在偏差</strong>：<br>代码中的随机位生成逻辑是 <code>randint(1, 7) % 2</code>。</p>
-<ul>
-<li><code>randint(1, 7)</code> 生成 1 到 7 之间的整数（包含 1 和 7）。</li>
-<li>集合为 <code>{1, 2, 3, 4, 5, 6, 7}</code>。</li>
-<li>对 2 取模的结果：<ul>
-<li>奇数 (1, 3, 5, 7) -&gt; 结果为 <code>1</code> (共4个)</li>
-<li>偶数 (2, 4, 6) -&gt; 结果为 <code>0</code> (共3个)</li>
-</ul>
-</li>
-<li><strong>偏差</strong>：生成 <code>1</code> 的概率是 $4&#x2F;7 \approx 57.1%$，生成 <code>0</code> 的概率是 $3&#x2F;7 \approx 42.9%$。这不是均匀分布的随机数。</li>
-</ul>
-</li>
-<li><p><strong>异或运算的统计特性</strong>：<br><code>otp()</code> 函数返回 <code>key ^ random_mask</code>。</p>
-<ul>
-<li>假设 Key 的某一位是 $k$，Mask 的对应位是 $r$。</li>
-<li>如果 $k &#x3D; 0$，则输出 $0 \oplus r &#x3D; r$。输出结果倾向于 Mask 的分布（1 多 0 少）。</li>
-<li>如果 $k &#x3D; 1$，则输出 $1 \oplus r &#x3D; \neg r$。输出结果会反转 Mask 的分布（0 多 1 少）。</li>
-</ul>
-</li>
-<li><p><strong>攻击方法</strong>：<br>根据<strong>大数定律</strong>，我们可以多次请求 <code>otp()</code>，收集大量的样本。对于每一位（bit）：</p>
-<ul>
-<li>统计该位为 <code>1</code> 的频率。</li>
-<li>如果频率显著大于 0.5（接近 4&#x2F;7），则 Key 的该位为 <code>0</code>。</li>
-<li>如果频率显著小于 0.5（接近 3&#x2F;7），则 Key 的该位为 <code>1</code>。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="完整的解题脚本-Solution-Script"><a href="#完整的解题脚本-Solution-Script" class="headerlink" title="完整的解题脚本 (Solution Script)"></a>完整的解题脚本 (Solution Script)</h3><p>你需要安装 <code>pwntools</code> 库 (<code>pip install pwntools</code>) 来运行此脚本。为了在本地测试，请确保当前目录下有题目给出的 <code>Subgroup-Weaver.py</code> 以及一个包含 <code>flag = &quot;CTF{test_flag}&quot;</code> 的 <code>secret.py</code> 文件。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置日志级别，减少杂乱输出</span></span><br><span class="line">context.log_level = <span class="string">&#x27;info&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve</span>():</span><br><span class="line">    <span class="comment"># 启动题目进程</span></span><br><span class="line">    <span class="comment"># 如果是远程题目，使用 remote(&#x27;ip&#x27;, port)</span></span><br><span class="line">    <span class="comment"># 这里演示本地运行题目文件</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        io = process([<span class="string">&#x27;python3&#x27;</span>, <span class="string">&#x27;Subgroup-Weaver.py&#x27;</span>])</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[-] 无法启动题目进程，请确保目录中有 Subgroup-Weaver.py 和 secret.py&quot;</span>)</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] 开始收集样本以进行统计分析...&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 样本数量。由于偏差较大(0.57 vs 0.43)，300-500个样本足以准确判断</span></span><br><span class="line">    SAMPLE_SIZE = <span class="number">500</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 用于存储每一位（bit）为 1 的出现次数</span></span><br><span class="line">    <span class="comment"># Key 是 64 字节 = 512 位</span></span><br><span class="line">    bit_counts = [<span class="number">0</span>] * <span class="number">512</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(SAMPLE_SIZE):</span><br><span class="line">        <span class="comment"># 接收提示符 &quot;&gt; &quot; 并发送任意非 Key 的输入以触发一次 otp()</span></span><br><span class="line">        io.sendlineafter(<span class="string">b&#x27;&gt; &#x27;</span>, <span class="string">b&#x27;get_sample&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 接收生成的随机数</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            line = io.recvline().strip()</span><br><span class="line">            val = <span class="built_in">int</span>(line)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] 数据解析错误&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 统计每一位的分布</span></span><br><span class="line">        <span class="keyword">for</span> bit_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">512</span>):</span><br><span class="line">            <span class="comment"># 检查 val 的第 bit_idx 位是否为 1</span></span><br><span class="line">            <span class="keyword">if</span> (val &gt;&gt; bit_idx) &amp; <span class="number">1</span>:</span><br><span class="line">                bit_counts[bit_idx] += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 简单的进度条</span></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;[*] 进度: <span class="subst">&#123;i&#125;</span>/<span class="subst">&#123;SAMPLE_SIZE&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;[*] 样本收集完毕，开始重构密钥...&quot;</span>)</span><br><span class="line"></span><br><span class="line">    recovered_key_int = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 根据统计结果重构 Key</span></span><br><span class="line">    <span class="keyword">for</span> bit_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">512</span>):</span><br><span class="line">        freq = bit_counts[bit_idx] / SAMPLE_SIZE</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 逻辑分析：</span></span><br><span class="line">        <span class="comment"># Mask 中 1 的概率是 4/7 (~0.57)</span></span><br><span class="line">        <span class="comment"># 如果 Key_bit = 0: Output = Mask =&gt; Output为1的概率 &gt; 0.5</span></span><br><span class="line">        <span class="comment"># 如果 Key_bit = 1: Output = ~Mask =&gt; Output为1的概率 &lt; 0.5</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> freq &lt; <span class="number">0.5</span>:</span><br><span class="line">            <span class="comment"># 频率低，说明 mask 被反转了，所以 key 的这一位是 1</span></span><br><span class="line">            recovered_key_int |= (<span class="number">1</span> &lt;&lt; bit_idx)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 频率高，说明 mask 没变，所以 key 的这一位是 0</span></span><br><span class="line">            <span class="keyword">pass</span> <span class="comment"># 默认为0，无需操作</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将整数转换为字节串</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        recovered_key_bytes = long_to_bytes(recovered_key_int)</span><br><span class="line">        <span class="comment"># 确保补齐 64 字节（如果高位全是0可能会变短，但在随机key中很少见）</span></span><br><span class="line">        recovered_key_bytes = recovered_key_bytes.rjust(<span class="number">64</span>, <span class="string">b&#x27;\0&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        recovered_key_hex = recovered_key_bytes.<span class="built_in">hex</span>()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[+] 恢复的密钥 (Hex): <span class="subst">&#123;recovered_key_hex&#125;</span>&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 发送密钥</span></span><br><span class="line">        io.sendlineafter(<span class="string">b&#x27;&gt; &#x27;</span>, recovered_key_hex.encode())</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 获取 Flag</span></span><br><span class="line">        response = io.recvall().decode(errors=<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;your prize&quot;</span> <span class="keyword">in</span> response:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span> + <span class="string">&quot;=&quot;</span>*<span class="number">40</span>)</span><br><span class="line">            <span class="built_in">print</span>(response.strip())</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span>*<span class="number">40</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[-] 密钥错误，可能样本量不足，请增加 SAMPLE_SIZE 重试。&quot;</span>)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[-] 发生错误: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        io.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 在本地生成一个伪造的 secret.py 以便代码可以直接运行验证</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;secret.py&quot;</span>):</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;secret.py&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(<span class="string">&#x27;flag = &quot;CTF&#123;biased_randomness_is_dangerous&#125;&quot;&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[!] 本地测试：已生成临时的 secret.py&quot;</span>)</span><br><span class="line">        </span><br><span class="line">    solve()</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="代码详细解释"><a href="#代码详细解释" class="headerlink" title="代码详细解释"></a>代码详细解释</h3><ol>
-<li><p><strong>样本收集 (<code>for i in range(SAMPLE_SIZE)</code>)</strong>:</p>
-<ul>
-<li>脚本模拟与服务器的交互。程序处于 <code>while</code> 循环中，只要输入的不是 Key，就会打印 <code>otp()</code> 的结果。</li>
-<li>我们发送垃圾数据（例如 <code>b&#39;get_sample&#39;</code>），服务器就会返回一个大整数。</li>
-<li>我们收集 500 个这样的大整数。</li>
-</ul>
-</li>
-<li><p><strong>位统计 (<code>bit_counts</code>)</strong>:</p>
-<ul>
-<li>Key 的长度是 64 字节，即 $64 \times 8 &#x3D; 512$ 比特。</li>
-<li>我们创建了一个长度为 512 的数组 <code>bit_counts</code>。</li>
-<li>对于每一个返回的整数，检查它的第 0 位到第 511 位。如果某一位是 <code>1</code>，就在数组对应位置加 1。</li>
-</ul>
-</li>
-<li><p><strong>密钥重构 (核心逻辑)</strong>:</p>
-<ul>
-<li><strong>理论基础</strong>：<ul>
-<li>Mask 的生成逻辑是 <code>randint(1,7)%2</code>。</li>
-<li>$P(\text{Mask}&#x3D;1) &#x3D; 4&#x2F;7 \approx 0.571$</li>
-<li>$P(\text{Mask}&#x3D;0) &#x3D; 3&#x2F;7 \approx 0.428$</li>
-</ul>
-</li>
-<li><strong>判断逻辑</strong>：<ul>
-<li>计算每一位出现 <code>1</code> 的频率 <code>freq = count / total</code>。</li>
-<li>如果 <code>freq &gt; 0.5</code>（接近 0.57）：这意味着 <code>Output</code> 的分布和 <code>Mask</code> 相同（1多0少）。根据异或性质 $0 \oplus x &#x3D; x$，说明 Key 的这一位是 <strong>0</strong>。</li>
-<li>如果 <code>freq &lt; 0.5</code>（接近 0.43）：这意味着 <code>Output</code> 的分布和 <code>Mask</code> 相反（1少0多，即0变成了1，1变成了0）。根据异或性质 $1 \oplus x &#x3D; \neg x$，说明 Key 的这一位是 <strong>1</strong>。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>提交与获取 Flag</strong>:</p>
-<ul>
-<li>利用位运算 <code>|= (1 &lt;&lt; bit_idx)</code> 将判断出的位组装回整数。</li>
-<li>转成十六进制字符串发送给服务器，即可通过验证并获取 Flag。</li>
-</ul>
-</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/01/25/2026%E5%B9%B41%E6%9C%8825%E6%97%A5%E6%97%A5%E8%AE%B0%E6%9A%A8%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
