@@ -410,4 +410,18 @@
         <tag>加密</tag>
       </tags>
   </entry>
+  <entry>
+    <title>MT19937</title>
+    <url>/2026/01/30/MT19937/</url>
+    <content><![CDATA[<p>早就想学习一下MT19937了,正好这次unictf有,打算借助subgroup_MT19937学习一下MT19937</p>
+<span id="more"></span>
+
+<p><a href="https://lianjinlll.cn/2025/03/16/MT19937%E7%AE%97%E6%B3%95%E4%B8%8E%E6%94%BB%E5%87%BB/">MT19937算法与攻击 | 1i4njinのbl0g</a></p>
+<p><a href="https://huangx607087.online/2021/07/10/Explore-MT19937/">Explore MT19937 - huangx607087’s Blog</a></p>
+<p><a href="https://seandictionary.top/mt19937/">MT19937 - SeanDictionary | 折腾日记</a></p>
+<p><a href="https://dexterjie.github.io/2025/10/28/MT19937/#more">MT19937 | DexterJie’Blog</a></p>
+<p><a href="https://xenny.wiki/posts/crypto/PRNG/MT19937.html#%E5%8F%82%E8%80%83">MT19937 分析 | Xenny 的博客</a></p>
+<p><a href="https://www.anquanke.com/post/id/205861#h3-9">浅析MT19937伪随机数生成算法-安全KER - 安全资讯平台</a></p>
+]]></content>
+  </entry>
 </search>
