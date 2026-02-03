@@ -20,25 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="This is somecry&#39;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="somecry">
-<meta property="og:url" content="http://example.com/tags/%E5%8A%A0%E5%AF%86/index.html">
+    <meta name="description" content="copy一下 第四届阿里CTF官方writeup-先知社区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四届阿里CTF官方writeup">
+<meta property="og:url" content="http://example.com/2026/02/04/%E7%AC%AC%E5%9B%9B%E5%B1%8A%E9%98%BF%E9%87%8CCTF%E5%AE%98%E6%96%B9writeup/index.html">
 <meta property="og:site_name" content="somecry">
-<meta property="og:description" content="This is somecry&#39;s blog">
+<meta property="og:description" content="copy一下 第四届阿里CTF官方writeup-先知社区">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-02-03T17:28:08.000Z">
+<meta property="article:modified_time" content="2026-02-03T18:37:16.842Z">
 <meta property="article:author" content="somecry">
 <meta property="article:tag" content="CTF,math">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/tags/%E5%8A%A0%E5%AF%86/">
+<link rel="canonical" href="http://example.com/2026/02/04/%E7%AC%AC%E5%9B%9B%E5%B1%8A%E9%98%BF%E9%87%8CCTF%E5%AE%98%E6%96%B9writeup/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/加密/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/02/04/%E7%AC%AC%E5%9B%9B%E5%B1%8A%E9%98%BF%E9%87%8CCTF%E5%AE%98%E6%96%B9writeup/","path":"2026/02/04/第四届阿里CTF官方writeup/","title":"第四届阿里CTF官方writeup"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: 加密 | somecry</title>
+<title>第四届阿里CTF官方writeup | somecry</title>
   
 
 
@@ -122,7 +124,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -135,6 +137,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#crypto"><span class="nav-number">1.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#griffin"><span class="nav-number">1.1.</span> <span class="nav-text">Griffin</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -178,110 +181,155 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">加密
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/04/%E7%AC%AC%E5%9B%9B%E5%B1%8A%E9%98%BF%E9%87%8CCTF%E5%AE%98%E6%96%B9writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/portrait.jpg">
+      <meta itemprop="name" content="somecry">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somecry">
+      <meta itemprop="description" content="This is somecry's blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="第四届阿里CTF官方writeup | somecry">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第四届阿里CTF官方writeup
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2026</span>
+
+      <time title="创建时间：2026-02-04 01:28:08 / 修改时间：02:37:16" itemprop="dateCreated datePublished" datetime="2026-02-04T01:28:08+08:00">2026-02-04</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>copy一下 <a
+target="_blank" rel="noopener" href="https://xz.aliyun.com/news/91567">第四届阿里CTF官方writeup-先知社区</a></p>
+<span id="more"></span>
+<h1 id="crypto">Crypto</h1>
+<h2 id="griffin">Griffin</h2>
+<p>题目大致的逻辑可以描述为，先从 <span
+class="math inline">[1, 257]</span> 中采样 <span
+class="math inline">2<em>d</em></span> 个点，再随机生成 <span
+class="math inline"><em>m</em></span> 个 <span
+class="math inline">ℤ<sub>order</sub></span> 下的度多项式。用这 <span
+class="math inline"><em>m</em></span> 个多项式分别在每个点进行评估后乘
+<span class="math inline"><em>G</em></span> 最终得到<span
+class="math inline">Hawk<sub>2<em>d</em> × <em>m</em></sub></span>
+，接着取随机的 <span class="math inline"><em>k</em> × <em>m</em></span>
+矩阵与 <span class="math inline"><em>G</em></span> 相乘得到 <span
+class="math inline"><em>L</em><em>i</em><em>o</em><em>n</em></span>。两部分拼接后得到
+<span
+class="math inline"><em>G</em><em>r</em><em>i</em><em>f</em><em>f</em><em>i</em><em>n</em></span>
+做完行混洗后输出。同时输出第一个采样多项式在 <code>flag</code>
+处的评估。</p>
+<p>第一步还是在拿到椭圆曲线上的点后通过消元、<code>GCD</code>
+的操作还原曲线参数，注意到得到的曲线是超奇异曲线，且阶光滑，直接求解
+<code>ECDLP</code> 即可。</p>
+<p>接下来需要将<span class="math inline">Hawk</span> 从 <span
+class="math inline"><em>G</em><em>r</em><em>i</em><em>f</em><em>f</em><em>i</em><em>n</em></span>
+中提取出来，需要注意的是 <span class="math inline">Hawk</span> 是 <span
+class="math inline"><em>m</em></span> 个 <span
+class="math inline"><em>d</em> − 1</span> 度多项式在 <span
+class="math inline">2<em>d</em></span> 个点估值的结果，因此 <span
+class="math display">rank(Hawk<sub>2<em>d</em> × <em>m</em></sub>) = <em>d</em></span>。利用这个特点我们可以结合
+<code>plain-ISD</code> 的思想，在 <span
+class="math inline">(<em>k</em> + 2<em>d</em>) × <em>m</em></span>
+的矩阵抽 <span class="math inline"><em>m</em></span>
+行，然后检查矩阵是否满秩，若不满秩则逐行去除并检查秩的变化，这样可以将有线性关系的
+<span class="math inline">2<em>d</em></span> 行全部取出。</p>
+<p>之后可以将 <span class="math inline">Hawk<sup><em>T</em></sup></span>
+写成 <span
+class="math display"><em>F</em> × <em>V</em>(<em>x</em><sub>1</sub>, …, <em>x</em><sub>2<em>d</em></sub>) = Hawk<sup><em>T</em></sup></span>，其中
+<span
+class="math inline"><em>F</em><sub><em>m</em> × <em>d</em></sub></span>
+为系数矩阵， <span
+class="math inline"><em>V</em><sub><em>d</em> × 2<em>d</em></sub></span>
+为范德蒙德矩阵。这个问题和 HSSP 十分类似，可以将其视为 McEliece
+框架下的公钥分解，因为 McEliece 在 Reedsolomen Code
+下是不安全的，可以参考<a
+target="_blank" rel="noopener" href="https://crypto-kantiana.com/elena.kirshanova/talks/Sidelnikov_Shestakov.pdf">Sidelnikov
+&amp; Shestakov 攻击</a>来恢复 <span
+class="math inline"><em>x</em><sub><em>i</em></sub></span>。</p>
+<p>最终可能有一到两个候选项并且有一个较小的位移（大概 5
+左右），需要进行枚举。通过求根，可以得到<span
+class="math display">FLAG mod  (<em>p</em> + 1)</span>的结果，其中 <span
+class="math inline"><em>p</em></span> 大概 170
+比特左右。注意到<code>FLAG</code> 的格式，只有 32 个 hex
+字符未知，简单的构造是按照 <span
+class="math inline">256<sup><em>i</em></sup></span>
+构造背包格，容易发现这个对于数字加小写字母的组合并不好balance，可以通过构造
+<span class="math inline">16<sup><em>i</em></sup></span>
+的格来获得更好的 balance 效果。</p>
+<p>但是实际上 <span
+class="math inline"><em>x</em><sub><em>i</em></sub></span>
+本身范数控制得较小，且处在一个较大的模下也可以利用正交的方式求得。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-24T20:27:41+08:00"
-              content="2026-01-24">
-          01-24
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/24/2026%E5%B9%B41%E6%9C%8824%E6%97%A5%E6%97%A5%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">2026年1月24日日记</span>
-          </a>
-      </div>
+    <footer class="post-footer">
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/30/MT19937/" rel="prev" title="MT19937">
+                  <i class="fa fa-angle-left"></i> MT19937
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-23T21:19:01+08:00"
-              content="2026-01-23">
-          01-23
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/23/2026%E5%B9%B41%E6%9C%8823%E6%97%A5%E6%97%A5%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">2026年1月23日日记</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-20T12:16:17+08:00"
-              content="2026-01-20">
-          01-20
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/20/2026%E5%B9%B41%E6%9C%8820%E6%97%A5/" itemprop="url">
-            <span itemprop="name">2026年1月20日</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-20T02:01:52+08:00"
-              content="2026-01-20">
-          01-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/20/2026%E5%B9%B41%E6%9C%8819%E6%97%A5%E6%97%A5%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">2026年1月19日日记</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
 
 </div>
   </main>
