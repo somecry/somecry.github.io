@@ -28,7 +28,7 @@
 <meta property="og:description" content="早就想学习一下MT19937了,正好这次unictf有,打算借助subgroup_MT19937学习一下MT19937">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-30T11:23:37.000Z">
-<meta property="article:modified_time" content="2026-01-30T11:28:35.704Z">
+<meta property="article:modified_time" content="2026-02-04T18:48:03.327Z">
 <meta property="article:author" content="somecry">
 <meta property="article:tag" content="CTF,math">
 <meta name="twitter:card" content="summary">
@@ -69,7 +69,7 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js" defer></script>
 
 
@@ -219,9 +219,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-01-30 19:23:37 / 修改时间：19:28:35" itemprop="dateCreated datePublished" datetime="2026-01-30T19:23:37+08:00">2026-01-30</time>
+      <time title="创建时间：2026-01-30 19:23:37" itemprop="dateCreated datePublished" datetime="2026-01-30T19:23:37+08:00">2026-01-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-02-05 02:48:03" itemprop="dateModified" datetime="2026-02-05T02:48:03+08:00">2026-02-05</time>
     </span>
 
   
@@ -248,6 +254,9 @@
 <p><a target="_blank" rel="noopener" href="https://dexterjie.github.io/2025/10/28/MT19937/#more">MT19937 | DexterJie’Blog</a></p>
 <p><a target="_blank" rel="noopener" href="https://xenny.wiki/posts/crypto/PRNG/MT19937.html#%E5%8F%82%E8%80%83">MT19937 分析 | Xenny 的博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/205861#h3-9">浅析MT19937伪随机数生成算法-安全KER - 安全资讯平台</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">from CTF_Library.Cryptography.MersenneTwister import python_random_breaker</span><br><span class="line">import random</span><br><span class="line">import itertools</span><br><span class="line">from sage.all import *</span><br><span class="line"></span><br><span class="line">outputs = </span><br><span class="line">out = []</span><br><span class="line"></span><br><span class="line">k = 0</span><br><span class="line">for i in range(len(outputs)):</span><br><span class="line">    if i % 3 == 1:</span><br><span class="line">        low_32 = outputs[i] &amp; 0xFFFFFFFF</span><br><span class="line">        high_32 = outputs[i] &gt;&gt; 32</span><br><span class="line"></span><br><span class="line">        out.append(low_32)</span><br><span class="line">        out.append(high_32)</span><br><span class="line">    else :</span><br><span class="line">        out.append(outputs[i])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">outs = out[:11]+out[227:238]</span><br><span class="line"></span><br><span class="line">processed_data = []</span><br><span class="line">target_indices = []</span><br><span class="line"></span><br><span class="line">for i, val in enumerate(outs):</span><br><span class="line">    if i &lt; 11:</span><br><span class="line">        real_index = i</span><br><span class="line"></span><br><span class="line">    else:</span><br><span class="line">        real_index = i + 216</span><br><span class="line"></span><br><span class="line">    if real_index % 4 == 0:</span><br><span class="line">        bits = 30</span><br><span class="line">        target_indices.append(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for bits in itertools.product(range(4), repeat=len(target_indices)):</span><br><span class="line">    candidate_out = list(outs)</span><br><span class="line"></span><br><span class="line">    for idx, bit in zip(target_indices, bits):</span><br><span class="line">        candidate_out[idx] = (candidate_out[idx] &lt;&lt; 2) + bit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        breaker = python_random_breaker()</span><br><span class="line">        print(hex(breaker.recover_all_integer_seeds_from_few_outputs(256, candidate_out, True)[0]))</span><br><span class="line">    except:</span><br><span class="line">        pass</span><br></pre></td></tr></table></figure>
+<p>不知道为啥没有输出结果…</p>
+<p>先这样吧</p>
 
     </div>
 
