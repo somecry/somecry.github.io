@@ -261,7 +261,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -291,6 +291,76 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/13/shctf%E9%A2%98%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/portrait.jpg">
+      <meta itemprop="name" content="somecry">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="somecry">
+      <meta itemprop="description" content="This is somecry's blog">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | somecry">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/02/13/shctf%E9%A2%98%E8%A7%A3/" class="post-title-link" itemprop="url">shctf题解</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-02-13 01:02:31 / 修改时间：01:03:22" itemprop="dateCreated datePublished" datetime="2026-02-13T01:02:31+08:00">2026-02-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line"># 1. 读取两个文件</span><br><span class="line">try:</span><br><span class="line">    with open(&quot;collision1.bin&quot;, &quot;rb&quot;) as f:</span><br><span class="line">        data1 = f.read()</span><br><span class="line">    with open(&quot;collision2.bin&quot;, &quot;rb&quot;) as f:</span><br><span class="line">        data2 = f.read()</span><br><span class="line">except FileNotFoundError:</span><br><span class="line">    print(&quot;找不到 collision1.bin 或 collision2.bin&quot;)</span><br><span class="line">    sys.exit()</span><br><span class="line"></span><br><span class="line"># 2. 转换为题目要求的 hex 格式</span><br><span class="line">hex_str1 = data1.hex()</span><br><span class="line">hex_str2 = data2.hex()</span><br><span class="line"></span><br><span class="line"># 3. 生成最终 Payload</span><br><span class="line">payload = f&quot;&#123;hex_str1&#125;,&#123;hex_str2&#125;&quot;</span><br><span class="line"></span><br><span class="line">print(&quot;=&quot; * 60)</span><br><span class="line">print(&quot;复制下面的内容粘贴到题目输入中:&quot;)</span><br><span class="line">print(&quot;=&quot; * 60)</span><br><span class="line">print(payload)</span><br><span class="line">print(&quot;=&quot; * 60)</span><br><span class="line"></span><br><span class="line"># 4. 帮你验证一下能否通过 (模拟题目逻辑)</span><br><span class="line">import string</span><br><span class="line">table = (string.ascii_letters + string.digits).encode()</span><br><span class="line"></span><br><span class="line"># 检查 1: 长度</span><br><span class="line">if len(data1) &lt;= 16: print(&quot;[X] 长度不足&quot;)</span><br><span class="line"></span><br><span class="line"># 检查 2: 字符集 (你的文件会挂在这里)</span><br><span class="line">is_alnum1 = all(ch in table for ch in data1[:16])</span><br><span class="line">is_alnum2 = all(ch in table for ch in data2[:16])</span><br><span class="line"></span><br><span class="line">if not is_alnum1 or not is_alnum2:</span><br><span class="line">    print(&quot;\n[!!!] 警告: 文件前16字节包含不可见字符！题目要求必须是字母或数字。&quot;)</span><br><span class="line">    print(f&quot;你的文件1开头: &#123;data1[:16]&#125;&quot;)</span><br><span class="line">    print(&quot;这会导致题目输出: &#x27;No, both apples are too ordinary&#x27;&quot;)</span><br><span class="line"></span><br><span class="line"># 检查 3: 前缀是否不同</span><br><span class="line">if data1[:16] == data2[:16]:</span><br><span class="line">    print(&quot;\n[!!!] 警告: 两个文件前16字节完全相同！&quot;)</span><br><span class="line">    print(&quot;这会导致题目输出: &#x27;Oh snap, both apples are the same&#x27;&quot;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1000,83 +1070,6 @@ mjx-container[display="true"] + br {
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/01/20/NSS4th/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2026/01/20/2026%E5%B9%B41%E6%9C%8819%E6%97%A5%E6%97%A5%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/portrait.jpg">
-      <meta itemprop="name" content="somecry">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="somecry">
-      <meta itemprop="description" content="This is somecry's blog">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | somecry">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/01/20/2026%E5%B9%B41%E6%9C%8819%E6%97%A5%E6%97%A5%E8%AE%B0/" class="post-title-link" itemprop="url">2026年1月19日日记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-01-20 02:01:52 / 修改时间：02:16:45" itemprop="dateCreated datePublished" datetime="2026-01-20T02:01:52+08:00">2026-01-20</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          这里有东西被加密了，需要输入密码查看哦。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/01/20/2026%E5%B9%B41%E6%9C%8819%E6%97%A5%E6%97%A5%E8%AE%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
