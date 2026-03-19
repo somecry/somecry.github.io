@@ -330,7 +330,7 @@ mjx-container[display="true"] + br {
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-03-19 17:58:55 / 修改时间：17:59:14" itemprop="dateCreated datePublished" datetime="2026-03-19T17:58:55+08:00">2026-03-19</time>
+      <time title="创建时间：2026-03-19 17:58:55 / 修改时间：18:02:01" itemprop="dateCreated datePublished" datetime="2026-03-19T17:58:55+08:00">2026-03-19</time>
     </span>
 
   
@@ -344,117 +344,14 @@ mjx-container[display="true"] + br {
     
     <div class="post-body" itemprop="articleBody">
           <h1>SUCTF2026 - SU_RSA - WriteUp</h1>
-<h2 id="WriteUp">WriteUp</h2>
-<ul>
-<li>
-<p>本题参考的是这篇论文，考点其实是三元Coppersmith与连分数，但是界没卡好导致二元Coppersmith就能做。</p>
-</li>
-<li>
-<p>参考的论文：<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2025/1281.pdf">2025-1281.pdf</a></p>
-</li>
-<li>
-<p>本题的题型是参考论文中的如下定理，这里就简单描述一下定理以及思路：</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>定理6</strong>：</p>
-<ul>
-<li>设$N=pq$，是一个RSA模数，并满足$q&lt;p&lt;2q$，设公钥指数会$e=N^{\alpha}$，并满足RSA密钥等式$ed-k(p-1)(q-1)=1$。</li>
-<li>设$\frac{p_{r-1}}{q_{r-1}},\frac{p_r}{q_r}$为$\frac{e}{N}$的两个连分数逼近，并且是满足以下条件的最大分母$q_{r-1}&lt;q_r&lt;\frac{N^{\frac{3}{4}}}{\sqrt{e}}$，同时满足$gcd(p_r,e)=1$，假设存在整数$|u|,|v|&lt;N^{\delta}$，使得$d=uq_r+vq_{r-1}$，并且$k=up_r+vp_{r-1}$，此外，设$S$是$p+q$的一个近似值，并满足$|p+q-S|&lt;N^{\gamma}$</li>
-<li>则只要满足$\delta&lt;\frac{1}{6}\alpha -\frac{1}{2}\gamma+\frac{1}{4}$，就可以在多项式时间内被分解。</li>
-</ul>
-</blockquote>
-<ul>
-<li>
-<p>攻击的构造如下：</p>
-<ul>
-<li>设$\frac{p_{r-1}}{q_{r-1}}$和$\frac{p_r}{q_r}$是$\frac{e}{N}$的两个相邻的渐进连分数，满足$q_{r-1}&lt;q_r&lt;\frac{N^{\frac{3}{4}}}{\sqrt{e}}$，并且满足$gcd(e,p_r)=1$</li>
-<li>并且我们假设：$ed-k(p-1)(q-1)=1$，其中$d=uq_r+vq_{r-1}$以及$k=up_r+vp_{r-1}$，以及$p+q=S+w$，其中$S$已知，$w$未知</li>
-<li>此时<code>RSA</code>的密钥方程就可以重新写成如下形式：</li>
-</ul>
-<p>$$<br>
-\begin{array}{l}<br>
-ed-k(p-1)(q-1)=1\<br>
-\Leftrightarrow \<br>
-e(uq_r+vq_{r-1})-(up_r+vp_{r-1})(N+1-S-w)=1<br>
-\end{array}<br>
-$$</p>
-<ul>
-<li>将这个等式的右边乘法展开，并且通过适当的移项就可以写成如下形式：</li>
-</ul>
-<p>$$<br>
-p_rwu+p_{r-1}wv-(N+1-S)p_ru-(N+1-S)p_{r-1}-eq_{r-1}v-1\equiv 0~mod(~eq_r)<br>
-$$</p>
-<ul>
-<li>此时将同余式的两边同时乘以$p_r^{-1}~mod(~eq_r)$，这就可以推导出如下的一个多项式：</li>
-</ul>
-<p>$$<br>
-wu+a_1wv+a_2u+a_3v+a_4\equiv 0~mod(~eq_r)\</p>
-<p>\begin{array}{l}<br>
-其中:\<br>
-a_1\equiv p_{r-1}p_r^{-1}~mod(~eq_r)\<br>
-a_2\equiv -(N+1-S)~mod(~eq_r)\<br>
-a_3\equiv -((N+1-S)p_{r-1}-eq_{r-1})p^{-1}_r~mod(~eq_r)\<br>
-a_4\equiv -p_r^{-1}~mod(~eq_r)<br>
-\end{array}<br>
-$$</p>
-<ul>
-<li>此时多项式：$f(x,y,z)=xy+a_1xz+a_2y+a_3z+a_4$，其三元组$(x,y,z)=(w,u,v)$是同余式$f(x,y,z)\equiv 0~mod(~eq_r)$</li>
-<li>这样就可以构造出一个模多项式，使用三元Coppersmith攻击求解小根。</li>
-<li>接下来就可以构造多项式系数矩阵，通过格基规约的方法求解出小系数的模多项式，通过求解这个小系数的多项式从而得到$(w,u,v)$</li>
-</ul>
-</li>
-<li>
-<p>这里同时给出<code>RSA加密</code>小私钥攻击<code>d</code>的一些方法与比较：</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>攻击方法</th>
-<th>私钥的上界$d&lt;N^{\delta}$</th>
-<th>额外泄露信息</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>经典维纳攻击</td>
-<td>$\delta=0.25-\epsilon$</td>
-<td>无额外信息</td>
-</tr>
-<tr>
-<td>拓展维纳攻击</td>
-<td>$\delta=0.25-\epsilon$</td>
-<td>无额外信息</td>
-</tr>
-<tr>
-<td>Boneh &amp; Durfee攻击</td>
-<td>$\delta=0.2847-\epsilon$</td>
-<td>无额外信息</td>
-</tr>
-<tr>
-<td>Boneh &amp; Durfee子格攻击</td>
-<td>$\delta = 0.2929-\epsilon$</td>
-<td>无额外信息</td>
-</tr>
-<tr>
-<td>Blömer &amp; May 攻击</td>
-<td>$\delta = 0.2899-\epsilon$</td>
-<td>无额外信息</td>
-</tr>
-<tr>
-<td>CFL攻击</td>
-<td>$\delta &gt;0.3$</td>
-<td>需要泄露$S=p+q$或其高低位</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>exp如下，可以在这个github仓库中看到<code>https://github.com/MengceZheng/RSA_CFL/tree/main</code>。但是其实用这个脚本的攻击效率还没有使用二元copper的效率快（应该是界没把握好的原因吧），这里就贴个二元copper的代码。</li>
-<li>当时生成数据用github仓库攻击可能大概需要3分钟，而二元copper试了一下，大概可以秒出<code>QAQ</code>。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sage.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line">N = <span class="number">92365041570462372694496496651667282908316053786471083312533551094859358939662811192309357413068144836081960414672809769129814451275108424713386238306177182140825824252259184919841474891970355752207481543452578432953022195722010812705782306205731767157651271014273754883051030386962308159187190936437331002989</span></span><br><span class="line">e = <span class="number">11633089755359155730032854124284730740460545725089199775211869030086463048569466235700655506823303064222805939489197357035944885122664953614035988089509444102297006881388753631007277010431324677648173190960390699105090653811124088765949042560547808833065231166764686483281256406724066581962151811900972309623</span></span><br><span class="line">S = <span class="number">19240297841264250428793286039359194954582584333143975177275208231751442091402057804865382456405620130960721382582620473853285822817245042321797974264381440</span></span><br><span class="line">c = <span class="number">49076508879433623834318443639845805924702010367241415781597554940403049101497178045621761451552507006243991929325463399667338925714447188113564536460416310188762062899293650186455723696904179965363708611266517356567118662976228548528309585295570466538477670197066337800061504038617109642090869630694149973251</span></span><br><span class="line"></span><br><span class="line">A = N - S + <span class="number">1</span></span><br><span class="line">X = <span class="number">2</span>**<span class="number">338</span></span><br><span class="line">Y = <span class="number">2</span>**<span class="number">399</span></span><br><span class="line">U = X * Y + <span class="number">1</span></span><br><span class="line">M = <span class="number">3</span></span><br><span class="line">T = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">PR = PolynomialRing(ZZ, names=(<span class="string">&quot;u&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;y&quot;</span>))</span><br><span class="line">u, x, y = PR.gens()</span><br><span class="line">Q = PR.quotient(x * y + <span class="number">1</span> - u)</span><br><span class="line">f = Q(<span class="number">1</span> + x * (A + y)).lift()</span><br><span class="line"></span><br><span class="line">PR2 = PolynomialRing(ZZ, names=(<span class="string">&quot;w&quot;</span>, <span class="string">&quot;z&quot;</span>))</span><br><span class="line">w, z = PR2.gens()</span><br><span class="line"></span><br><span class="line">shifts = <span class="built_in">sorted</span>((x**i) * (e ** (M - k)) * (f**k) <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(M + <span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(M - k + <span class="number">1</span>))</span><br><span class="line">monomials = <span class="built_in">sorted</span>(&#123;mon <span class="keyword">for</span> poly <span class="keyword">in</span> shifts <span class="keyword">for</span> mon <span class="keyword">in</span> poly.monomials()&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, T + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(floor(M / T) * j, M + <span class="number">1</span>):</span><br><span class="line">        shifts.append(Q((y**j) * (f**k) * (e ** (M - k))).lift())</span><br><span class="line">        monomials.append((u**k) * (y**j))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">basis = Matrix(ZZ, <span class="built_in">len</span>(monomials))</span><br><span class="line"><span class="keyword">for</span> i, poly <span class="keyword">in</span> <span class="built_in">enumerate</span>(shifts):</span><br><span class="line">    basis[i, <span class="number">0</span>] = poly(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, i + <span class="number">1</span>):</span><br><span class="line">        mon = monomials[j]</span><br><span class="line">        <span class="keyword">if</span> mon <span class="keyword">in</span> poly.monomials():</span><br><span class="line">            basis[i, j] = poly.monomial_coefficient(mon) * mon(U, X, Y)</span><br><span class="line"></span><br><span class="line">basis = basis.LLL()</span><br><span class="line">polys = []</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> basis.rows()[:<span class="number">12</span>]:</span><br><span class="line">    poly = PR(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> coeff, mon <span class="keyword">in</span> <span class="built_in">zip</span>(row, monomials):</span><br><span class="line">        <span class="keyword">if</span> coeff:</span><br><span class="line">            poly += ZZ(coeff // mon(U, X, Y)) * mon</span><br><span class="line">    <span class="keyword">if</span> poly:</span><br><span class="line">        polys.append(poly)</span><br><span class="line"></span><br><span class="line">flag = <span class="literal">None</span></span><br><span class="line">sub_map = &#123;u: w * z + <span class="number">1</span>, x: w, y: z&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(polys)):</span><br><span class="line">    <span class="keyword">if</span> flag <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="built_in">len</span>(polys)):</span><br><span class="line">        g1 = PR2(polys[i].subs(sub_map))</span><br><span class="line">        g2 = PR2(polys[j].subs(sub_map))</span><br><span class="line">        <span class="keyword">if</span> g1.is_constant() <span class="keyword">or</span> g2.is_constant():</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        res = g1.resultant(g2, z)</span><br><span class="line">        <span class="keyword">if</span> res == <span class="number">0</span> <span class="keyword">or</span> res.is_constant():</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        roots_w = [ZZ(root) <span class="keyword">for</span> root, _ <span class="keyword">in</span> res.univariate_polynomial().change_ring(QQ).roots() <span class="keyword">if</span> root <span class="keyword">in</span> ZZ]</span><br><span class="line">        <span class="keyword">for</span> kw <span class="keyword">in</span> roots_w:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">abs</span>(kw) &gt;= X:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            roots_z = [ZZ(root) <span class="keyword">for</span> root, _ <span class="keyword">in</span> g1(w=kw).univariate_polynomial().change_ring(QQ).roots() <span class="keyword">if</span> root <span class="keyword">in</span> ZZ]</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> yz <span class="keyword">in</span> roots_z:</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">abs</span>(yz) &gt;= Y <span class="keyword">or</span> (<span class="number">1</span> + kw * (A + yz)) % e != <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                phi = A + yz</span><br><span class="line">                d = (<span class="number">1</span> + kw * phi) // e</span><br><span class="line">                s = N - phi + <span class="number">1</span></span><br><span class="line">                delta = s * s - <span class="number">4</span> * N</span><br><span class="line">                sq = isqrt(delta)</span><br><span class="line">                <span class="keyword">if</span> sq * sq != delta:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                p = (s + sq) // <span class="number">2</span></span><br><span class="line">                q = (s - sq) // <span class="number">2</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;p = <span class="subst">&#123;p&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;q = <span class="subst">&#123;q&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">if</span> p * q == N:</span><br><span class="line">                    flag = long_to_bytes(<span class="built_in">pow</span>(c, d, N))</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> flag <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> flag <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> flag <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">&quot;failed to recover the flag&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(flag.decode())</span><br><span class="line"><span class="comment"># SUCTF&#123;congratulation_you_know_small_d_with_hint_factor&#125;</span></span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/03/19/RSA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -510,7 +407,7 @@ $$</p>
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-03-19 15:12:36 / 修改时间：15:21:19" itemprop="dateCreated datePublished" datetime="2026-03-19T15:12:36+08:00">2026-03-19</time>
+      <time title="创建时间：2026-03-19 15:12:36 / 修改时间：18:02:15" itemprop="dateCreated datePublished" datetime="2026-03-19T15:12:36+08:00">2026-03-19</time>
     </span>
 
   
@@ -524,16 +421,14 @@ $$</p>
     
     <div class="post-body" itemprop="articleBody">
           <p>😡😡😡😡😡😡😡😡😡😡</p>
-<p><a target="_blank" rel="noopener" href="https://www.doubao.com/thread/ac57049d646bd">😡</a></p>
-<p>谁能发现!</p>
-<img src="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/photo1.jpg" class="" title="图片描述文字">
-<p>我意识到这样的机会不多了,所以我开始疯狂地记录.</p>
-<img src="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/photo2.jpg" class="" title="图片描述文字">
-<img src="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/photo3.jpg" class="" title="图片描述文字">
-<img src="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/photo5.jpg" class="" title="图片描述文字">
-<img src="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/photo6.jpg" class="" title="图片描述文字">
-<p>我不知道前方有什么,但是我觉得往前走总比不走要好.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/03/19/2026%E5%B9%B43%E6%9C%8819%E6%97%A5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
